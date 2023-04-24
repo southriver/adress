@@ -29,6 +29,7 @@
             var file = fileInput.files[0];
             var formData = new FormData();
             formData.append('audioFile', file);
+            fileInput.disabled = true;
             load_button.disabled = true;
             var audioDataElement = document.getElementById('audio-data');
             audioDataElement.innerHTML = 'Working ...';
@@ -45,6 +46,7 @@
                     audioDataElement.innerHTML = 'Hata:' + data.message;
                 }
                 load_button.disabled = false;
+                fileInput.disabled = false;
             })
             .catch(error => {
                 console.error('Error loading WAV file:', error);
