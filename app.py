@@ -20,10 +20,11 @@ def predictMMSE():
     filename = 'file.wav'
     audioFile.save(filename)
 
-    valMsg = validateFile(filename)
+    valMsg, duration = validateFile(filename)
     if valMsg != '':
         response = {
-            'message': valMsg
+            'message': valMsg,
+            'duration' : duration
         }
         return jsonify(response)
 
@@ -34,16 +35,18 @@ def predictMMSE():
 
     response = {
         'message': '',
-        'mmse': str(mmse)
+        'mmse': str(mmse),
+        'duration' : duration
     }
     return jsonify(response)
 
 def validateFile(audio_file):
     audioTest = AudioFeature(audio_file=audio_file, trimSecs=3)
     checkMsg = audioTest.checkFile()
+    duration = audioTest.get_info()
     if audioTest.checkFile() != '':
-        return checkMsg
-    return ''
+        return checkMsg, duration
+    return '', duration
 
 from pathlib import Path
 def predict(audio_file):

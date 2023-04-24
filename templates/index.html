@@ -40,10 +40,11 @@
             .then(response => response.json())
             .then(data => {
                 if (data.message == '') {
-                    audioDataElement.innerHTML = 'Predicted MMSE: ' + JSON.stringify(data.mmse);
+                    audioDataElement.innerHTML = 'Süre: ' + JSON.stringify(data.duration) + ' saniye.' +
+                    '<br> Predicted MMSE: ' + JSON.stringify(data.mmse) ;
                 }
                 else {
-                    audioDataElement.innerHTML = 'Hata:' + data.message;
+                    audioDataElement.innerHTML = 'Süre:' + JSON.stringify(data.duration) + ' saniye. <br>Hata:' + data.message;
                 }
                 load_button.disabled = false;
                 fileInput.disabled = false;
