@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Load WAV File and Predict MMSE</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css">
+</head>
+<body style="padding:20px">
+<main>
+    <h2>Load WAV File and Predict MMSE</h2>
+
+    <div class="row">
+    <div class="col-md-6">
+        <input type="file" id="file-input" onchange="if (this.files.length >0) load_button.disabled = false; else  load_button.disabled = true;">
+        <button id="load_button" onclick="loadWav()" disabled="true">WAV Dosya Yukle ve Tahmin Et</button>
+        <div id="audio-data"></div>
+    </div>
+    <div  class="col-md-6">
+        <p>Asagidaki resimi hastaya tanimlamasini, "Bana burada gordugun herseyi tanimla" sorusuyla istedikten sonra,
+        120 saniyeyi gecmeyen .wav dosyasini buradan yukleyerek MMSE tahmini alabilirsiniz</p>
+        <img class="img-responsive" src="/static/Cookie-Theft-Picture-4.png" width="400" height="300">
+    </div>
+    </div>
+</main>
+    <script>
+        function loadWav() {
+            var fileInput = document.getElementById('file-input');
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append('audioFile', file);
+            load_button.disabled = true;
+            var audioDataElement = document.getElementById('audio-data');
+            audioDataElement.innerHTML = 'Working ...';
+            fetch('/predictMMSE', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message == '') {
+                    audioDataElement.innerHTML = 'Predicted MMSE: ' + JSON.stringify(data.mmse);
+                }
+                else {
+                    audioDataElement.innerHTML = 'Hata:' + data.message;
+                }
+                load_button.disabled = false;
+            })
+            .catch(error => {
+                console.error('Error loading WAV file:', error);
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
