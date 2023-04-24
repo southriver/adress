@@ -33,8 +33,8 @@ class AudioFeature:
             return "Dosya .wav dosyasi olmali"
         audio_data, sr = librosa.load(self.audio_file, sr=None,mono=True)
         duration = librosa.get_duration(y=audio_data, sr=sr)
-        if duration > 120:
-            return 'Wav dosyayi max 120 saniye olabilir'
+        if duration > 300:
+            return 'Wav dosyayi max 300 saniye olabilir'
         return ''
     # Function to extract features from a list of audio files
     def extract_features_one_file(self):
