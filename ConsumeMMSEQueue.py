@@ -46,4 +46,4 @@ def consumeQueue():
         row['JobEndDate'] = datetime.now()
         access.updateJobById(row, id)
 
-consumeQueue()
+# consumeQueue()
