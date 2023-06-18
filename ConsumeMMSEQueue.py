@@ -15,7 +15,7 @@ def consumeQueue():
     try:
         id = row['Id']
         audioFileName = row['JobData']  #data
-        print ('Processing job id: ', id, ' for filename: ', audioFileName)
+        print ('Processing job id: ', id, ' for filename: ', audioFileName, ' for job owner : ', row['JobOwner'])
         THIS_FOLDER = Path(__file__).parent.resolve()
         filename = THIS_FOLDER / 'MMSE' / audioFileName
         row['JobStartDate'] = datetime.now()

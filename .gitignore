@@ -5,3 +5,5 @@ model/__pycache__/DGJobAccess.cpython-310.pyc
 model/__pycache__/PredictMMSE.cpython-310.pyc
 model/__pycache__/RecordAccess.cpython-310.pyc
 .gitignore
+model/db/__pycache__/DGJobAccess.cpython-310.pyc
+model/db/__pycache__/RecordAccess.cpython-310.pyc

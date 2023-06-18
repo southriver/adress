@@ -118,7 +118,7 @@ def predictMMSE():
 def getMMSEJobs():
     content = request.json
     access = DGJobAccess()
-    ptEmail = content["patientEmail"]
+    ptEmail = content["userEmail"]
     jobs = access.getJobsForUser(ptEmail)
     ret = []
     for job in jobs:
