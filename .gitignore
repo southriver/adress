@@ -1,1 +1,7 @@
 MMSE/20230615213710145835_S001_0.wav
+model/__pycache__/AudioFeature.cpython-310.pyc
+model/__pycache__/config.cpython-310.pyc
+model/__pycache__/DGJobAccess.cpython-310.pyc
+model/__pycache__/PredictMMSE.cpython-310.pyc
+model/__pycache__/RecordAccess.cpython-310.pyc
+.gitignore
