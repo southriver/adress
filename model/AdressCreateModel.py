@@ -1,8 +1,12 @@
+from pathlib import Path
+
 import librosa
 import numpy as np
 import pandas as pd
 import os
 
+from matplotlib import pyplot as plt
+from sklearn.decomposition import PCA
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_selection import SelectKBest, f_regression
 from sklearn.metrics import accuracy_score, f1_score
@@ -93,6 +97,26 @@ def best_params(data):
         print(f'  Mean cross-validation score: {result["mean_cv_score"]:.4f}')
 
 
+def checkCorrelation(dataX):
+    # Calculate the correlation matrix
+    corr_matrix = np.corrcoef(dataX, rowvar=False)
+
+    # Check for high correlation coefficients
+    for i in range(corr_matrix.shape[0]):
+        for j in range(i+1, corr_matrix.shape[1]):
+            if abs(corr_matrix[i,j]) > 0.8:
+                print(f"Variables {i} and {j} have a high correlation coefficient: {corr_matrix[i,j]:.3f}")
+
+def plotPCA(X):
+    pcaPlot = PCA()
+    pcaPlot.fit(X)
+
+    # Plot the scree plot
+    plt.plot(range(1, pcaPlot.n_components_ + 1), pcaPlot.explained_variance_ratio_, marker='o')
+    plt.xlabel('Number of components')
+    plt.ylabel('Explained variance ratio')
+    plt.show()
+
 def applyRF(data , saveModel):
 
     X = data.iloc[:,:-1]
@@ -116,7 +140,7 @@ def applyRF(data , saveModel):
     if saveModel:
         pickle.dump(classification_method, open("adressModel1.pkl", "wb"))
 
-def createModel():
+def createDataframe():
     train_dir = 'C:/Temp/mugla/adress/train3_trimmed/frames2'
     # Get a list of all audio file paths in the train directory
     train_files = [os.path.join(train_dir, f) for f in os.listdir(train_dir) if f.endswith('.wav')]
@@ -137,10 +161,22 @@ def createModel():
 
     # normalizeData(train_df)
     # train_df = feature_select2(train_df)
-    print('Train Data after normalize, feature select:')
-    print(train_df)
+    # print('Train Data after normalize, feature select:')
+    # print(train_df)
 
-    applyRF(train_df , True)
+    return train_df
 
+def createModel():
+    data = createDataframe()
+    applyRF(data, False)
 
-# createModel()
+# data = createDataframe()
+# pickle.dump(data, open("adressDataframe.pkl", "wb"))
+THIS_FOLDER = Path(__file__).parent.resolve()
+my_file = THIS_FOLDER / "adressDataframe.pkl"
+loaded_dataFrame = pickle.load(open(my_file,"rb"))
+# normalizeData(loaded_dataFrame)
+# checkCorrelation(loaded_dataFrame)
+# plotPCA(loaded_dataFrame.iloc[:,:-1])
+# best_params(loaded_dataFrame)
+applyRF(loaded_dataFrame, False)

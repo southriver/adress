@@ -33,7 +33,12 @@
             load_button.disabled = true;
             var audioDataElement = document.getElementById('audio-data');
             audioDataElement.innerHTML = 'Working ...';
+            myHeaders = new Headers({
+                'Authorization': 'Bearer {{bearerToken}}'
+                // 'Content-Type': 'multipart/form-data'
+            });            
             fetch('/predictMMSE', {
+                headers: myHeaders,
                 method: 'POST',
                 body: formData
             })
